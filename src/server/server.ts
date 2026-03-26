@@ -24,18 +24,22 @@ export async function startServer(options: ServerOptions) {
   // API routes
   app.route("/api", apiRoutes(options.connectionString));
 
-  // Serve static frontend assets in production
+  // Serve static frontend assets in production (skip in Tauri/compiled mode)
   const clientDir = path.join(__dirname, "client");
-  app.use("*", serveStatic({ root: clientDir }));
+  const hasClientDir = fs.existsSync(path.join(clientDir, "index.html"));
 
-  // SPA fallback
-  app.get("*", async (c) => {
-    const html = await fs.promises.readFile(
-      path.join(clientDir, "index.html"),
-      "utf-8"
-    );
-    return c.html(html);
-  });
+  if (hasClientDir) {
+    app.use("*", serveStatic({ root: clientDir }));
+
+    // SPA fallback
+    app.get("*", async (c) => {
+      const html = await fs.promises.readFile(
+        path.join(clientDir, "index.html"),
+        "utf-8"
+      );
+      return c.html(html);
+    });
+  }
 
   const isExposed = options.host !== "localhost" && options.host !== "127.0.0.1";
   let authToken: string | undefined;
@@ -92,12 +96,15 @@ export async function startServer(options: ServerOptions) {
     exec(`${cmd} ${url}`);
   }
 
-  process.stdin.setRawMode?.(true);
-  process.stdin.resume();
-  process.stdin.on("data", (data) => {
-    if (data.toString() === "q") {
-      console.log("\n  Shutting down...\n");
-      process.exit(0);
-    }
-  });
+  // Only set up keyboard listener in TTY mode (not when run as sidecar)
+  if (process.stdin.isTTY) {
+    process.stdin.setRawMode?.(true);
+    process.stdin.resume();
+    process.stdin.on("data", (data) => {
+      if (data.toString() === "q") {
+        console.log("\n  Shutting down...\n");
+        process.exit(0);
+      }
+    });
+  }
 }
