@@ -1,0 +1,62 @@
+{
+  "name": "pg-lens",
+  "version": "0.1.0",
+  "description": "A browser-based Postgres database explorer",
+  "type": "module",
+  "bin": {
+    "pg-lens": "./dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ludviglundh/pg-lens"
+  },
+  "author": "Ludvig Lundh",
+  "homepage": "https://github.com/ludviglundh/pg-lens#readme",
+  "scripts": {
+    "dev": "concurrently \"bun run dev:server\" \"bun run dev:client\"",
+    "dev:server": "tsup src/server/cli.ts --watch --onSuccess 'node dist/cli.js'",
+    "dev:client": "vite",
+    "build": "tsup src/server/cli.ts && vite build",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": ["postgres", "database", "explorer", "gui", "studio"],
+  "license": "MIT",
+  "dependencies": {
+    "@codemirror/lang-sql": "^6.10.0",
+    "@codemirror/state": "^6.6.0",
+    "@codemirror/theme-one-dark": "^6.1.3",
+    "@codemirror/view": "^6.40.0",
+    "@hono/node-server": "^1.19.11",
+    "@tanstack/react-table": "^8.21.3",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "codemirror": "^6.0.2",
+    "date-fns": "^4.1.0",
+    "hono": "^4.7.0",
+    "lucide-react": "^1.7.0",
+    "next-themes": "^0.4.6",
+    "nuqs": "^2.8.9",
+    "postgres": "^3.4.0",
+    "radix-ui": "^1.4.3",
+    "react-day-picker": "^9.14.0",
+    "sonner": "^2.0.7",
+    "tailwind-merge": "^3.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "concurrently": "^9.1.0",
+    "tsup": "^8.4.0",
+    "typescript": "^5.7.0",
+    "vite": "^6.0.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "tailwindcss": "^4.0.0",
+    "@tailwindcss/vite": "^4.0.0"
+  }
+}
