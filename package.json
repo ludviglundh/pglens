@@ -1,20 +1,20 @@
 {
-  "name": "pg-lens",
+  "name": "@ludviglundh/pglens",
   "version": "0.1.0",
   "description": "A browser-based Postgres database explorer",
   "type": "module",
   "bin": {
-    "pg-lens": "./dist/cli.js"
+    "pglens": "./dist/cli.js"
   },
   "files": [
     "dist"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/ludviglundh/pg-lens"
+    "url": "https://github.com/ludviglundh/pglens"
   },
   "author": "Ludvig Lundh",
-  "homepage": "https://github.com/ludviglundh/pg-lens#readme",
+  "homepage": "https://github.com/ludviglundh/pglens#readme",
   "scripts": {
     "dev": "concurrently \"bun run dev:server\" \"bun run dev:client\"",
     "dev:server": "tsup src/server/cli.ts --watch --onSuccess 'node dist/cli.js'",

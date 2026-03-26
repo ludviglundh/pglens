@@ -14,10 +14,10 @@ const { values, positionals } = parseArgs({
 
 if (values.help) {
   console.log(`
-  pg-lens - Browser-based Postgres explorer
+  pglens - Browser-based Postgres explorer
 
   Usage:
-    pg-lens [connection-string] [options]
+    pglens [connection-string] [options]
 
   Options:
     -p, --port     Port to listen on (default: 4985)
@@ -26,9 +26,9 @@ if (values.help) {
     -h, --help     Show this help message
 
   Examples:
-    pg-lens
-    pg-lens postgres://user:pass@localhost:5432/mydb
-    pg-lens --port 3000 --no-open
+    pglens
+    pglens postgres://user:pass@localhost:5432/mydb
+    pglens --port 3000 --no-open
 `);
   process.exit(0);
 }

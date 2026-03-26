@@ -75,7 +75,7 @@ export async function startServer(options: ServerOptions) {
   const url = `http://${options.host}:${actualPort}`;
 
   console.log(`
-  pg-lens v0.1.0
+  pglens v0.1.0
 
   ➜ UI:        ${url}${options.connectionString ? `\n  ➜ Database:  ${options.connectionString.replace(/\/\/.*:.*@/, "//***:***@")}` : ""}
   ➜ Press q to quit
