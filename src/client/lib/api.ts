@@ -1,6 +1,6 @@
 // In Tauri, frontend is served from filesystem, so API calls need the full URL.
 // In browser/npx mode, relative /api works via Vite proxy or Hono serving both.
-const isTauri = "__TAURI__" in window;
+const isTauri = "__TAURI_INTERNALS__" in window || "__TAURI__" in window;
 const BASE = isTauri ? "http://localhost:4985/api" : "/api";
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
