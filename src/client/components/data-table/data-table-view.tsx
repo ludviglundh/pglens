@@ -167,12 +167,7 @@ export function DataTableView({
 		setSaving(true);
 		try {
 			const changes = pending.buildChanges(data.rows, pkColumns);
-			await api.data.rows(schema, table, {}); // validate connection
-			await fetch(`/api/data/${schema}/${table}/update`, {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ changes }),
-			});
+			await api.data.update(schema, table, changes);
 			pending.discard();
 			loadData();
 		} catch (err) {
@@ -561,7 +556,10 @@ export function DataTableView({
 					</span>
 					<AddRowDialog
 						columns={dbColumns}
-						onAdd={(rowData) => pending.addInsert(rowData)}
+						schema={schema}
+						table={table}
+						enumValues={enumValues}
+						onSuccess={loadData}
 					/>
 				</div>
 				<div className="flex items-center gap-2">
@@ -591,7 +589,7 @@ export function DataTableView({
 							setPage(1);
 						}}
 					>
-						<SelectTrigger size="sm" className="w-[70px]">
+						<SelectTrigger size="sm" className="w-[85px]">
 							<SelectValue />
 						</SelectTrigger>
 						<SelectContent>
@@ -635,7 +633,7 @@ export function DataTableView({
 								{headerGroup.headers.map((header) => (
 									<TableHead
 										key={header.id}
-										className="relative group/header select-none border-r last:border-r-0"
+										className="relative group/header select-none border-r "
 										style={{ width: header.getSize() }}
 									>
 										{header.column.getCanSort() ? (
@@ -689,7 +687,7 @@ export function DataTableView({
 										{row.getVisibleCells().map((cell) => (
 											<TableCell
 												key={cell.id}
-												className={`border-r last:border-r-0 truncate overflow-hidden cursor-default ${
+												className={`border-r  truncate overflow-hidden cursor-default ${
 													isDeleted && cell.column.id !== "_select"
 														? "opacity-40 line-through"
 														: ""

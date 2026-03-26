@@ -146,5 +146,10 @@ export const api = {
         method: "POST",
         body: JSON.stringify({ sql }),
       }),
+    update: (schema: string, table: string, changes: unknown[]) =>
+      request<{ ok: boolean; affected: number }>(`/data/${schema}/${table}/update`, {
+        method: "POST",
+        body: JSON.stringify({ changes }),
+      }),
   },
 };

@@ -166,37 +166,47 @@ export function dataRoutes() {
     const { changes } = await c.req.json();
     const db = getDb();
 
-    const results = await db.begin(async (tx) => {
-      const ops = [];
-      for (const change of changes) {
-        if (change.type === "update") {
-          ops.push(
-            tx`
-              UPDATE ${tx(schema)}.${tx(table)}
-              SET ${tx(change.data)}
-              WHERE ${tx(change.where)}
-            `
-          );
-        } else if (change.type === "insert") {
-          ops.push(
-            tx`
-              INSERT INTO ${tx(schema)}.${tx(table)}
-              ${tx(change.data)}
-            `
-          );
-        } else if (change.type === "delete") {
-          ops.push(
-            tx`
-              DELETE FROM ${tx(schema)}.${tx(table)}
-              WHERE ${tx(change.where)}
-            `
-          );
+    try {
+      const results = await db.begin(async (tx) => {
+        const ops = [];
+        for (const change of changes) {
+          if (change.type === "update") {
+            ops.push(
+              tx`
+                UPDATE ${tx(schema)}.${tx(table)}
+                SET ${tx(change.data)}
+                WHERE ${tx(change.where)}
+              `
+            );
+          } else if (change.type === "insert") {
+            if (!change.data || Object.keys(change.data).length === 0) {
+              ops.push(
+                tx`INSERT INTO ${tx(schema)}.${tx(table)} DEFAULT VALUES`
+              );
+            } else {
+              ops.push(
+                tx`
+                  INSERT INTO ${tx(schema)}.${tx(table)}
+                  ${tx(change.data)}
+                `
+              );
+            }
+          } else if (change.type === "delete") {
+            ops.push(
+              tx`
+                DELETE FROM ${tx(schema)}.${tx(table)}
+                WHERE ${tx(change.where)}
+              `
+            );
+          }
         }
-      }
-      return Promise.all(ops);
-    });
+        return Promise.all(ops);
+      });
 
-    return c.json({ ok: true, affected: results.length });
+      return c.json({ ok: true, affected: results.length });
+    } catch (error) {
+      return c.json({ error: (error as Error).message }, 400);
+    }
   });
 
   return app;
