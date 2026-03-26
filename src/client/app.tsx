@@ -6,12 +6,24 @@ import { api } from "@client/lib/api";
 import { Toaster } from "@client/components/ui/sonner";
 import { TooltipProvider } from "@client/components/ui/tooltip";
 
+async function waitForServer(maxRetries = 30, interval = 500): Promise<boolean> {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      const { connected } = await api.connection.status();
+      return connected;
+    } catch {
+      await new Promise((r) => setTimeout(r, interval));
+    }
+  }
+  return false;
+}
+
 export function App() {
   const [connected, setConnected] = useState<boolean | null>(null);
 
   useEffect(() => {
-    api.connection.status().then(({ connected }) => {
-      setConnected(connected);
+    waitForServer().then((isConnected) => {
+      setConnected(isConnected);
     });
   }, []);
 
