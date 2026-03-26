@@ -10,6 +10,16 @@ Download the latest `.dmg` from [Releases](https://github.com/ludviglundh/pglens
 
 > Currently available for macOS (Apple Silicon). More platforms coming soon.
 
+**Note:** The app is not signed with an Apple Developer certificate. On first launch macOS will block it. To open it:
+
+1. Open **System Settings > Privacy & Security**
+2. Scroll down and click **Open Anyway** next to the PG Lens message
+
+Or run this in Terminal after installing:
+```bash
+xattr -cr "/Applications/PG Lens.app"
+```
+
 ### CLI (npm)
 
 ```bash
