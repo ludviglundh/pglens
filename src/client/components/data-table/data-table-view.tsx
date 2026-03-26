@@ -584,7 +584,6 @@ export function DataTableView({
 						JSON
 					</Button>
 					<Separator orientation="vertical" className="h-5" />
-					<span className="text-xs text-muted-foreground">Rows per page</span>
 					<Select
 						value={String(pageSize)}
 						onValueChange={(v) => {
@@ -592,7 +591,7 @@ export function DataTableView({
 							setPage(1);
 						}}
 					>
-						<SelectTrigger size="sm" className="w-full">
+						<SelectTrigger size="sm" className="w-[70px]">
 							<SelectValue />
 						</SelectTrigger>
 						<SelectContent>
@@ -686,14 +685,15 @@ export function DataTableView({
 							const isDeleted = pending.isRowDeleted(row.index);
 							return (
 								<>
-									<TableRow
-										key={row.id}
-										className={isDeleted ? "opacity-40 line-through" : ""}
-									>
+									<TableRow key={row.id}>
 										{row.getVisibleCells().map((cell) => (
 											<TableCell
 												key={cell.id}
-												className="border-r last:border-r-0 truncate overflow-hidden cursor-default"
+												className={`border-r last:border-r-0 truncate overflow-hidden cursor-default ${
+													isDeleted && cell.column.id !== "_select"
+														? "opacity-40 line-through"
+														: ""
+												}`}
 												style={{ width: cell.column.getSize() }}
 											>
 												{flexRender(

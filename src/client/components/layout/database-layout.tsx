@@ -58,7 +58,7 @@ export function DatabaseLayout({ onDisconnected }: DatabaseLayoutProps) {
 				onToggleShowEnums={(show) => updateSettings({ showEnums: show })}
 				onSetTheme={setTheme}
 			/>
-			<SidebarInset className="min-w-0 overflow-hidden">
+			<SidebarInset className="min-w-0 overflow-hidden h-screen">
 				<header className="h-12 flex shrink-0 items-center gap-2 border-b bg-muted/30 px-2">
 					<SidebarTrigger className="-ml-1" />
 					<Separator orientation="vertical" className="mr-1 h-4" />
@@ -69,7 +69,7 @@ export function DatabaseLayout({ onDisconnected }: DatabaseLayoutProps) {
 						onCloseTab={closeTab}
 					/>
 				</header>
-				<div className="flex-1 min-h-0">
+				<div className="flex-1 min-h-0 overflow-hidden">
 					{activeTab ? (
 						activeTab.type === "table" ? (
 							<DataTableView

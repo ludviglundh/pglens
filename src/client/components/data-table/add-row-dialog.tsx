@@ -51,12 +51,12 @@ export function AddRowDialog({ columns, onAdd }: AddRowDialogProps) {
 					Add row
 				</Button>
 			</DialogTrigger>
-			<DialogContent className="max-w-lg">
+			<DialogContent className="max-w-lg flex flex-col max-h-[80vh]">
 				<DialogHeader>
 					<DialogTitle>Add row</DialogTitle>
 				</DialogHeader>
-				<form onSubmit={handleSubmit}>
-					<ScrollArea className="max-h-[400px] pr-4">
+				<form onSubmit={handleSubmit} className="flex flex-col min-h-0 flex-1">
+					<ScrollArea className="flex-1 min-h-0 pr-4">
 						<div className="space-y-3 py-2">
 							{columns.map((col) => (
 								<div key={col.name} className="space-y-1">
@@ -92,7 +92,7 @@ export function AddRowDialog({ columns, onAdd }: AddRowDialogProps) {
 							))}
 						</div>
 					</ScrollArea>
-					<DialogFooter className="mt-4">
+					<DialogFooter className="mt-4 shrink-0 border-t pt-4">
 						<Button type="submit" size="sm">
 							Add row
 						</Button>
