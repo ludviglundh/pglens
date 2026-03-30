@@ -64,15 +64,24 @@ The connection string can also be provided via the `DATABASE_URL` environment va
 
 #### Claude Code
 
-Add to `.claude/settings.json`:
+```bash
+claude mcp add pglens -s user -- npx -y @ludviglundh/pglens mcp postgres://user:pass@localhost:5432/mydb
+```
+
+For read-write mode:
+
+```bash
+claude mcp add pglens -s user -- npx -y @ludviglundh/pglens mcp --read-write postgres://user:pass@localhost:5432/mydb
+```
+
+Or add manually to `.claude/settings.json`:
 
 ```json
 {
   "mcpServers": {
     "pglens": {
       "command": "npx",
-      "args": ["@ludviglundh/pglens", "mcp"],
-      "env": { "DATABASE_URL": "postgres://user:pass@localhost:5432/mydb" }
+      "args": ["-y", "@ludviglundh/pglens", "mcp", "postgres://user:pass@localhost:5432/mydb"]
     }
   }
 }
