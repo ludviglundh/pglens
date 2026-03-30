@@ -7,7 +7,7 @@ export default defineConfig({
   outDir: "dist",
   clean: true,
   noExternal: [],
-  external: ["postgres", "@hono/node-server"],
+  external: ["postgres", "@hono/node-server", "@modelcontextprotocol/sdk", "zod"],
   banner: {
     js: "#!/usr/bin/env node",
   },

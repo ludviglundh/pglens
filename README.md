@@ -46,6 +46,67 @@ Options:
   -h, --help     Show this help message
 ```
 
+### MCP Server
+
+PG Lens can run as an [MCP](https://modelcontextprotocol.io) server, giving AI assistants (Claude Code, Cursor, etc.) direct access to your PostgreSQL database.
+
+```bash
+pglens mcp postgres://user:pass@localhost:5432/mydb
+```
+
+By default the MCP server is **read-only**. To allow write operations:
+
+```bash
+pglens mcp postgres://user:pass@localhost:5432/mydb --read-write
+```
+
+The connection string can also be provided via the `DATABASE_URL` environment variable.
+
+#### Claude Code
+
+Add to `.claude/settings.json`:
+
+```json
+{
+  "mcpServers": {
+    "pglens": {
+      "command": "npx",
+      "args": ["@ludviglundh/pglens", "mcp"],
+      "env": { "DATABASE_URL": "postgres://user:pass@localhost:5432/mydb" }
+    }
+  }
+}
+```
+
+#### Claude Desktop / Cursor
+
+Add to your MCP config file:
+
+```json
+{
+  "mcpServers": {
+    "pglens": {
+      "command": "npx",
+      "args": ["@ludviglundh/pglens", "mcp", "postgres://user:pass@localhost:5432/mydb"]
+    }
+  }
+}
+```
+
+#### Available Tools
+
+| Tool | Description |
+|------|-------------|
+| `list_schemas` | List all database schemas |
+| `list_tables` | Tables and views in a schema with row counts |
+| `describe_table` | Columns, indexes, and foreign key references |
+| `get_rows` | Paginated rows with sorting, filtering, and search |
+| `list_enums` | Enum types and their values |
+| `query` | Execute SQL (read-only by default) |
+| `execute_mutation` | Batch INSERT/UPDATE/DELETE (requires `--read-write`) |
+
+A `postgres://schema` resource is also available, providing a full database schema overview.
+
 ## Features
 
 ### Schema Browser
