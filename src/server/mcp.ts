@@ -46,7 +46,7 @@ export async function startMcp(options: McpOptions) {
 
   const server = new McpServer({
     name: "pglens",
-    version: "1.1.4",
+    version: "1.2.0",
   });
 
   // ─── Tools ───────────────────────────────────────────────────────
